@@ -12,7 +12,7 @@ namespace jmWebApi.Controllers
         public jContext _db;
 
          public tController(jContext context){
-            this._db=context;
+            _db=context;
         }
         // GET api/t
         [HttpGet]
