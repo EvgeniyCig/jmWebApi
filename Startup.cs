@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using jmWebApi.data;
 
 namespace jmWebApi
 {
@@ -28,6 +30,8 @@ namespace jmWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            string con = "Data Source=192.168.0.9;Integrated Security=False;User ID=sa;Password=zdtkbrbq";
+            services.AddDbContext<jContext>(options => options.UseSqlServer(con));
             services.AddMvc();
         }
 

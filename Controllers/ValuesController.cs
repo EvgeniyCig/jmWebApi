@@ -1,11 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using jmWebApi.data;
 
 namespace jmWebApi.Controllers
 {
+    [Route("api/[controller]")]
+    public class tController : Controller
+    {
+        public jContext _db;
+
+         public tController(jContext context){
+            this._db=context;
+        }
+        // GET api/t
+        [HttpGet]
+        public IEnumerable<vendor> Get()
+        {
+            //return new string[] { "value1", "value2" };
+            return _db.vendors.ToList();
+        }
+    }
+
+
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
