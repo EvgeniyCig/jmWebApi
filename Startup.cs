@@ -30,7 +30,7 @@ namespace jmWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            string con = "Data Source=CNOTEVAIOIT;Database=store;Integrated Security=False;User ID=sa;Password=zdtkbrbq";
+            string con = "Data Source=localhost;Database=store;Integrated Security=False;User ID=sa;Password=zdtkbrbq";
             services.AddDbContext<jContext>(options => options.UseSqlServer(con));
             services.AddMvc();
         }

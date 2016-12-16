@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace jmWebApi.data
 {
 
     public class jsonstring{
+        [Key]
         string jstr { get;set; }
     }
 

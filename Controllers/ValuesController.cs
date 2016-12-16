@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using jmWebApi.data;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace jmWebApi.Controllers
 {
@@ -15,14 +17,10 @@ namespace jmWebApi.Controllers
         }
         // GET api/t
         [HttpGet]
-        public string Get()
+        public IEnumerable<jsonstring> Get()
         {
-            //return new string[] { "value1", "value2" };
-            //return _db.vendors.ToList();
-            string jstr;
-            jstr = "sadasdasd";
-            var ttt=_db.jstring.FromSQL("select * from vendors FOR JSON PATH").ToList();
-            return jstr;
+            var ttt = _db.jstring.AsNoTracking().FromSql("select * from vendors FOR JSON PATH").ToList();
+            return ttt;
         }
     }
 
