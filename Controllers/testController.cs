@@ -3,30 +3,33 @@ using Microsoft.AspNetCore.Mvc;
 using jmWebApi.data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Belgrade.SqlClient;
+using System.Threading.Tasks;
 
 namespace jmWebApi.Controllers
 {
     [Route("api/[controller]")]
     public class tController : Controller
     {
-        public jContext _db;
 
-        public tController(jContext context)
+        private readonly IQueryPipe SqlPipe;
+
+        public tController(IQueryPipe sqlPipe)
         {
-            _db=context;
+            this.SqlPipe = sqlPipe;
         }
+
         // GET api/t
         [HttpGet]
-        public IEnumerable<jsonstring> Get()
+        public async Task Get()
         {
-            var ttt = _db.jstring.AsNoTracking().FromSql("select * from vendors FOR JSON PATH").ToList();
-            return ttt;
+            await SqlPipe.Stream("select * from equipment_vendors for json auto", Response.Body, "[]");
         }
     }
 
 
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class testController : Controller
     {
         // GET api/values
         [HttpGet]

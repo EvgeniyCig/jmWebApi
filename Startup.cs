@@ -9,6 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using jmWebApi.data;
+using Belgrade.SqlClient;
+using Belgrade.SqlClient.SqlDb;
+using System.Data.SqlClient;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace jmWebApi
 {
@@ -31,8 +35,20 @@ namespace jmWebApi
         {
             // Add framework services.
             string con = "Data Source=localhost;Database=store;Integrated Security=False;User ID=sa;Password=zdtkbrbq";
+            services.AddTransient<IQueryPipe>(_ => new QueryPipe(new SqlConnection(con)));
             services.AddDbContext<jContext>(options => options.UseSqlServer(con));
             services.AddMvc();
+
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin();
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", corsBuilder.Build());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +56,8 @@ namespace jmWebApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+			
+			app.UseCors("AllowAll");
 
             app.UseMvc();
         }
